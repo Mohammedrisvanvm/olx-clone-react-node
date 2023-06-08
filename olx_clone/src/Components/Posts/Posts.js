@@ -2,9 +2,10 @@ import React from 'react';
 
 import Heart from '../../assets/Heart';
 import './Post.css';
+import { useNavigate } from 'react-router';
 
 function Posts() {
-
+const Navigate=useNavigate()
   return (
     <div className="postParentDiv">
       <div className="moreView">
@@ -15,6 +16,10 @@ function Posts() {
         <div className="cards">
           <div
             className="card"
+            onClick={()=>{
+              console.log('hai');
+              Navigate('/Product')
+            }}
           >
             <div className="favorite">
               <Heart></Heart>

@@ -6,7 +6,13 @@ import Search from '../../assets/Search';
 import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
+import {  useNavigate } from 'react-router';
 function Header() {
+ const Navigate=useNavigate()
+
+ const searchHandler=(e)=>{
+  console.log(e.target.value)
+ }
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
@@ -23,6 +29,7 @@ function Header() {
             <input
               type="text"
               placeholder="Find car,mobile phone and more..."
+              onChange={searchHandler}
             />
           </div>
           <div className="searchAction">
@@ -34,11 +41,15 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-          <span>Login</span>
+          <span onClick={()=>{
+            Navigate('/login')
+          }}>Login</span>
           <hr />
         </div>
 
-        <div className="sellMenu">
+        <div className="sellMenu" onClick={()=>{
+          Navigate('/sell')
+        }}>
           <SellButton></SellButton>
           <div className="sellMenuContent">
             <SellButtonPlus></SellButtonPlus>

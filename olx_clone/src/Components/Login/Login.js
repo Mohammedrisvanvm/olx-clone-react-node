@@ -2,8 +2,10 @@ import React from 'react';
 
 import Logo from '../../olx-logo.png';
 import './Login.css';
+import { useNavigate } from 'react-router';
 
 function Login() {
+  const Navigate=useNavigate()
   return (
     <div>
       <div className="loginParentDiv">
@@ -32,7 +34,7 @@ function Login() {
           <br />
           <button>Login</button>
         </form>
-        <a>Signup</a>
+        <p onClick={()=>Navigate('/signUp')}>Signup</p>
       </div>
     </div>
   );
