@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import { bcryptPassword } from "../bcrypt/bcrypt.js";
+import { bcryptPassword, checkPassword } from "../bcrypt/bcrypt.js";
 import User from "../model/userModel.js";
 
 export const checkUserLoggedIn = asyncHandler((req, res) => {
@@ -16,7 +16,6 @@ export const userRegister = asyncHandler(async (req, res) => {
   if (user) {
     res.json({ error: true, message: "User Already Exist" });
   } else {
-  
     const newPassword = bcryptPassword(password);
     const newUser = new User({ name, email, password: newPassword, mobile });
     await newUser.save();
@@ -25,7 +24,7 @@ export const userRegister = asyncHandler(async (req, res) => {
         id: newUser._id,
       },
       process.env.JWT_SECRET
-    )
+    );
     res
       .cookie("token", token, {
         httpOnly: true,
@@ -34,5 +33,40 @@ export const userRegister = asyncHandler(async (req, res) => {
         sameSite: "none",
       })
       .json({ error: false, message: "User created" });
+  }
+});
+
+export const userLogin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.json({ error: true, message: "User not found" });
+  } else {
+    const passwordVerify = checkPassword(password, user.password);
+    if (!passwordVerify) {
+      res.json({ error: true, message: "credencials not matched" });
+    } else {
+      const token = jwt.sign(
+        {
+          id: user._id,
+        },
+        process.env.JWT_SECRET
+      );
+
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
+          sameSite: "none",
+        })
+        .json({
+          error: false,
+          user: user._id,
+          name: user.name,
+          message: "welcome",
+        });
+    }
   }
 });

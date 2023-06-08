@@ -1,24 +1,41 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import Logo from '../../olx-logo.png';
-import './Login.css';
-import { useNavigate } from 'react-router';
+import Logo from "../../olx-logo.png";
+import "./Login.css";
+import { useNavigate } from "react-router";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Login() {
-  const Navigate=useNavigate()
+  const Navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const submitHandler = (e) => {
+    e.preventDefault();
+    axios.post("/userLogin", { email, password }).then((response) => {
+      if (response.data.error) {
+        toast.error(response.data.message);
+      } else {
+        toast.success(response.data.message +" "+response.data.name);
+        Navigate("/");
+      }
+    });
+  };
   return (
     <div>
       <div className="loginParentDiv">
         <img width="200px" height="200px" src={Logo}></img>
-        <form>
+        <form onSubmit={submitHandler}>
           <label htmlFor="fname">Email</label>
           <br />
           <input
             className="input"
             type="email"
-            id="fname"
+            id="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             name="email"
-            defaultValue="John"
           />
           <br />
           <label htmlFor="lname">Password</label>
@@ -26,15 +43,17 @@ function Login() {
           <input
             className="input"
             type="password"
-            id="lname"
+            id="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             name="password"
-            defaultValue="Doe"
           />
           <br />
           <br />
           <button>Login</button>
         </form>
-        <p onClick={()=>Navigate('/signUp')}>Signup</p>
+        <p onClick={() => Navigate("/signUp")}>Signup</p>
       </div>
     </div>
   );
