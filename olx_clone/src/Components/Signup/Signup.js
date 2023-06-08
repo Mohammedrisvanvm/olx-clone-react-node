@@ -12,13 +12,17 @@ export default function Signup() {
   const [mobile, setMobile] = useState("");
   const [name, setName] = useState("");
   const submitHandler = (e) => {
-e.preventdefault()
- axios.post('/userRegister',{
-  name, mobile, password, email
-}).then((response)=>{
-  console.log(response.data);
-})
-   
+    e.preventDefault();
+    axios
+      .post("/userRegister", {
+        name,
+        mobile,
+        password,
+        email,
+      })
+      .then((response) => {
+        toast
+      });
   };
   return (
     <div>

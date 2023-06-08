@@ -8,7 +8,7 @@ import Signup from "./Components/Signup/Signup";
 import CreatePage from "./Pages/Create";
 import ViewPost from "./Pages/ViewPost";
 import AuthContext from "./store/Context";
-
+import { ToastContainer } from "react-toastify";
 axios.defaults.baseURL = "http://localhost:5000/";
 axios.defaults.withCredentials = true;
 
@@ -16,6 +16,7 @@ function App() {
   return (
     <div>
       <AuthContext>
+      <ToastContainer />
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
