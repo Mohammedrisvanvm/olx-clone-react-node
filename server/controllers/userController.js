@@ -9,19 +9,29 @@ export const checkUserLoggedIn = asyncHandler((req, res) => {
   if (!token) return res.json({ loggedin: false, message: "no token" });
 });
 
-export const userRegister=asyncHandler(async(req,res)=>{
+export const userRegister = asyncHandler(async (req, res) => {
+  const { name, email, password, mobile } = req.body;
 
-    const { name, email, password, mobile } = req.body;
-    console.log(mobile);
-   const user=await User.findOne({email})
-   if(user){
-     res.json({ error: true, message: "User Already Exist" })
-   }else{
-
-       const newPassword= bcryptPassword(password)
-       const newUser=new User({name, email, password:newPassword, mobile})
-       await newUser.save();
-       console.log(newUser);
-       res.json({ error: false, message: "User created" })
-   }
-})
+  const user = await User.findOne({ email });
+  if (user) {
+    res.json({ error: true, message: "User Already Exist" });
+  } else {
+    const newPassword = bcryptPassword(password);
+    const newUser = new User({ name, email, password: newPassword, mobile });
+    await newUser.save();
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+      },
+      process.env.JWT_SECRET
+    )
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        sameSite: "none",
+      })
+      .json({ error: false, message: "User created" });
+  }
+});
