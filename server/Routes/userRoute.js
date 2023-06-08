@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { userHome } from "../controllers/userController.js";
+import { checkUserLoggedIn } from "../controllers/userController.js";
 const router=Router()
 
 
-router.get("/",userHome)
+router.get("/checkAuth",checkUserLoggedIn)
 
 
 
