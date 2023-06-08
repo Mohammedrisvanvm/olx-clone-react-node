@@ -8,6 +8,7 @@ import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
 import {  useNavigate } from 'react-router';
 function Header() {
+  const {user}=useContext(AuthContext)
  const Navigate=useNavigate()
 
  const searchHandler=(e)=>{
