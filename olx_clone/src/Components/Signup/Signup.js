@@ -4,6 +4,7 @@ import Logo from "../../olx-logo.png";
 import "./Signup.css";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Signup() {
   const Navigate = useNavigate();
@@ -21,7 +22,12 @@ export default function Signup() {
         email,
       })
       .then((response) => {
-        toast
+        if (response.data.error) {
+          toast.error(response.data.message);
+        } else {
+          toast.success(response.data.message);
+          Navigate('/login')
+        }
       });
   };
   return (
@@ -36,7 +42,7 @@ export default function Signup() {
             type="text"
             id="name"
             onChange={(e) => {
-              console.log(e.target.value);
+             
               setName(e.target.value);
             }}
             name="name"
