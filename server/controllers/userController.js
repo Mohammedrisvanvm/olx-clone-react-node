@@ -12,15 +12,16 @@ export const checkUserLoggedIn = asyncHandler((req, res) => {
 export const userRegister=asyncHandler(async(req,res)=>{
 
     const { name, email, password, mobile } = req.body;
-   const user=await User.findOne(email)
+    console.log(mobile);
+   const user=await User.findOne({email})
    if(user){
-    return res.json({ error: true, message: "User Already Exist" })
+     res.json({ error: true, message: "User Already Exist" })
    }else{
 
        const newPassword= bcryptPassword(password)
-       const newUser=User.create({name, email, newPassword, mobile})
+       const newUser=new User({name, email, password:newPassword, mobile})
+       await newUser.save();
        console.log(newUser);
+       res.json({ error: false, message: "User created" })
    }
-
-
 })
