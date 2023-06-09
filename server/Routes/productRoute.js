@@ -4,7 +4,7 @@ import { adminHome } from "../controllers/productController.js";
 const router=Router()
 
 
-router.get("/",adminHome)
+router.get("/addProduct",adminHome)
 
 
 

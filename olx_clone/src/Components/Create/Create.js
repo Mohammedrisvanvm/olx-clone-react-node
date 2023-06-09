@@ -1,18 +1,21 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import "./Create.css";
 import Header from "../Header/Header";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { authContext } from "../../store/Context";
 
 const Create = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
+  const {user}=useContext(authContext)
   const submitHandler=async (e)=>{
     e.preventDefault()
 validationErr()
 
-let { data } = await axios.post('/add-product', { image, name, category, price, description, userId: user.details._id }, {
+let { data } = await axios.post('/product/addProduct', { image, name, category, price, userId: user.details._id }, {
   headers: {
     'content-type': 'multipart/form-data'
   }

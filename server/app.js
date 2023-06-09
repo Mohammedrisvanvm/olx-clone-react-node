@@ -23,7 +23,7 @@ app.use(
   );
 app.use(morgan("dev"))
 app.use('/',userIndex)
-app.use('/product]',productIndex)
+app.use('/product',productIndex)
 app.listen(5000,()=>{
     console.log("server running");
 })
