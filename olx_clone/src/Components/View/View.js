@@ -7,37 +7,34 @@ function View({ id }) {
   useEffect(() => {
     (async function fetchData() {
       let { data } = await axios.post("/product/productInfo", { id });
-      console.log(data);
       setProduct({ ...data.product, user: data.user });
-    
     })();
   }, []);
   const baseImgUrl = "http://localhost:5000/uploads/";
-  console.log(product);
+
   if (!product) {
     return null;
   }
   return (
     <>
-   
-    <div className="viewParentDiv">
-      <div className="image">
-        <img src={baseImgUrl + product.image.filename} alt="" />
-      </div>
-      <div className="rightSection">
-        <div className="productDetails">
-          <p>&#x20B9; {product.price} </p>
-          <span>{product.name}</span>
-          <p>{product.category}</p>
-          <span>{new Date(product.createdAt).toLocaleDateString()}</span>
+      <div className="viewParentDiv">
+        <div className="image">
+          <img src={baseImgUrl + product.image.filename} alt="" />
         </div>
-        <div className="contactDetails">
-          <p>Seller details</p>
-          <p>{product.user.name}</p>
-          <p>{product.user.mobile}</p>
+        <div className="rightSection">
+          <div className="productDetails">
+            <p>&#x20B9; {product.price} </p>
+            <span>{product.name}</span>
+            <p>{product.category}</p>
+            <span>{new Date(product.createdAt).toLocaleDateString()}</span>
+          </div>
+          <div className="contactDetails">
+            <p>Seller details</p>
+            <p>{product.user.name}</p>
+            <p>{product.user.mobile}</p>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
