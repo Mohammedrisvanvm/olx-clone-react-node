@@ -11,3 +11,7 @@ export const addProduct = AsyncHandler(async (req, res) => {
   });
   res.json({ message: "product added" });
 });
+export const products=AsyncHandler(async(req,res)=>{
+    const products=await productModel.find()
+    res.json({products})
+})

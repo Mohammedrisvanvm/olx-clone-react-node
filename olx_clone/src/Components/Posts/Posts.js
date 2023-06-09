@@ -5,7 +5,9 @@ import './Post.css';
 import { useNavigate } from 'react-router';
 
 
-function Posts() {
+function Posts({products}) {
+  const baseImgUrl='http://localhost:5000/uploads/'
+
 const Navigate=useNavigate()
   return (
     <div className="postParentDiv">
@@ -15,6 +17,7 @@ const Navigate=useNavigate()
           <span>View more</span>
         </div>
         <div className="cards">
+        {products.map((product) => (
           <div
             className="card"
             onClick={()=>{
@@ -26,17 +29,18 @@ const Navigate=useNavigate()
               <Heart></Heart>
             </div>
             <div className="image">
-              <img src="../../../Images/R15V3.jpg" alt="" />
+              <img src={baseImgUrl+product.image.filename} alt="" />
             </div>
             <div className="content">
-              <p className="rate">&#x20B9; 250000</p>
-              <span className="kilometer">Two Wheeler</span>
-              <p className="name"> YAMAHA R15V3</p>
+              <p className="rate">&#x20B9; {product.price}</p>
+              <span className="kilometer">{product.category}</span>
+              <p className="name"> {product.name.toUpperCase()}</p>
             </div>
             <div className="date">
-              <span>Tue May 04 2021</span>
+              <span>{new Date(product.createdAt).toLocaleDateString()}</span>
             </div>
           </div>
+        ))}
         </div>
       </div>
       <div className="recommendations">
