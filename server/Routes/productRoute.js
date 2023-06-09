@@ -7,7 +7,7 @@ const router=Router()
 
 router.post("/addProduct",upload.single('image'),addProduct)
 router.get("/products",products)
-router.get("/productInfo",productInfo)
+router.post("/productInfo",productInfo)
 
 
 

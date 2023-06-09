@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import Heart from '../../assets/Heart';
-import './Post.css';
-import { useNavigate } from 'react-router';
+import Heart from "../../assets/Heart";
+import "./Post.css";
+import { useNavigate } from "react-router";
 
+function Posts({ products }) {
+  const baseImgUrl = "http://localhost:5000/uploads/";
 
-function Posts({products}) {
-  const baseImgUrl='http://localhost:5000/uploads/'
-
-const Navigate=useNavigate()
+  const Navigate = useNavigate();
   return (
     <div className="postParentDiv">
       <div className="moreView">
@@ -17,29 +16,29 @@ const Navigate=useNavigate()
           <span>View more</span>
         </div>
         <div className="cards">
-        {products.map((product) => (
-          <div
-            className="card"
-            onClick={()=>{
-              Navigate('/Product/'+product._id)
-            }}
-          >
-            <div className="favorite">
-              <Heart></Heart>
+          {products.map((product) => (
+            <div
+              className="card"
+              onClick={() => {
+                Navigate("/Product/" + product._id);
+              }}
+            >
+              <div className="favorite">
+                <Heart></Heart>
+              </div>
+              <div className="image">
+                <img src={baseImgUrl + product.image.filename} alt="" />
+              </div>
+              <div className="content">
+                <p className="rate">&#x20B9; {product.price}</p>
+                <span className="kilometer">{product.category}</span>
+                <p className="name"> {product.name.toUpperCase()}</p>
+              </div>
+              <div className="date">
+                <span>{new Date(product.createdAt).toLocaleDateString()}</span>
+              </div>
             </div>
-            <div className="image">
-              <img src={baseImgUrl+product.image.filename} alt="" />
-            </div>
-            <div className="content">
-              <p className="rate">&#x20B9; {product.price}</p>
-              <span className="kilometer">{product.category}</span>
-              <p className="name"> {product.name.toUpperCase()}</p>
-            </div>
-            <div className="date">
-              <span>{new Date(product.createdAt).toLocaleDateString()}</span>
-            </div>
-          </div>
-        ))}
+          ))}
         </div>
       </div>
       <div className="recommendations">

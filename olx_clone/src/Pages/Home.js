@@ -10,11 +10,14 @@ import axios from "axios";
 function Home() {
   const [product, setProduct] = useState([]);
   useEffect(() => {
+    fetchData()
+     function fetchData() {
     axios.get("product/products").then((response) => {
       setProduct(response.data.products);
     });
+  }
   },[]);
-  console.log(product);
+
   return (
     <div className="homeParentDiv">
       <Header />

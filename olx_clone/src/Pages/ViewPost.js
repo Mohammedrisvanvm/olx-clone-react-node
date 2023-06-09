@@ -5,7 +5,7 @@ import View from '../Components/View/View'
 import { useParams } from 'react-router'
 
 function ViewPost(props) {
-    const id =useParams()
+    const {id} =useParams()
     
     return (
         <div>

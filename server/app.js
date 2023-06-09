@@ -7,12 +7,15 @@ import dotenv from "dotenv";
 import cors from 'cors'
 import cookieParser from "cookie-parser";
 import path from 'path'
+import bodyParser from "body-parser";
 const app=express()
 dbconnect()
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 dotenv.config();
 app.use(express.static(path.resolve() + "/public"));
 app.use(
