@@ -3,10 +3,20 @@ import jwt from "jsonwebtoken";
 import { bcryptPassword, checkPassword } from "../bcrypt/bcrypt.js";
 import User from "../model/userModel.js";
 
-export const checkUserLoggedIn = asyncHandler((req, res) => {
-  const token = req.cookies.token;
+export const checkUserLoggedIn = asyncHandler(async (req, res) => {
+ 
+    const token = req.cookies.token;
 
-  if (!token) return res.json({ loggedin: false, message: "no token" });
+    if (!token)
+      return res.json({ loggedIn: false, error: true, message: "no token" });
+
+    const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(verifiedJWT.id, { password: 0 });
+    if (!user) {
+      return res.json({ loggedIn: false });
+    }
+    return res.json({ user, loggedIn: true });
+  
 });
 
 export const userRegister = asyncHandler(async (req, res) => {
@@ -70,3 +80,11 @@ export const userLogin = asyncHandler(async (req, res) => {
     }
   }
 });
+export const userLogout = async (req, res) => {
+  res.cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+      secure: true,
+      sameSite: "none",
+  }).json({ message: "logged out", error: false });
+}

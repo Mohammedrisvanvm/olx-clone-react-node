@@ -1,19 +1,48 @@
-import React from 'react';
+import React, { useContext } from "react";
 
-import './Header.css';
-import OlxLogo from '../../assets/OlxLogo';
-import Search from '../../assets/Search';
-import Arrow from '../../assets/Arrow';
-import SellButton from '../../assets/SellButton';
-import SellButtonPlus from '../../assets/SellButtonPlus';
-import {  useNavigate } from 'react-router';
+import "./Header.css";
+import OlxLogo from "../../assets/OlxLogo";
+import Search from "../../assets/Search";
+import Arrow from "../../assets/Arrow";
+import SellButton from "../../assets/SellButton";
+import SellButtonPlus from "../../assets/SellButtonPlus";
+import { useNavigate } from "react-router";
+import { authContext } from "../../store/Context";
+import { Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 function Header() {
-  const {user}=useContext(AuthContext)
- const Navigate=useNavigate()
+  const { user, setRefresh, refresh } = useContext(authContext);
+  const Navigate = useNavigate();
 
- const searchHandler=(e)=>{
-  console.log(e.target.value)
- }
+  const searchHandler = (e) => {
+    console.log(e.target.value);
+  };
+
+  function logoutHandler() {
+    const ConfirmationDialog = () => (
+      <div>
+        <p color="red">Are you sure you want to logout?</p>
+        <button onClick={handleLogout}>Yes</button>
+        <button onClick={() => toast.dismiss()}>No</button>
+      </div>
+    );
+
+    const handleLogout = async () => {
+      axios.get("/userLogout").then((response) => {
+        setRefresh(!refresh);
+        toast.dismiss();
+      });
+    };
+
+    toast(<ConfirmationDialog />, {
+      autoClose: false,
+      closeOnClick: false,
+      closeButton: false,
+    });
+  }
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
@@ -42,19 +71,34 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-          <span onClick={()=>{
-            Navigate('/login')
-          }}>Login</span>
-          <hr />
+          {user.login ? (
+            <Dropdown>
+              <Dropdown.Toggle>{user.details.name}</Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Link to="/login">
+              <span>Login</span>
+            </Link>
+          )}
         </div>
 
-        <div className="sellMenu" onClick={()=>{
-          Navigate('/sell')
-        }}>
+        <div className="sellMenu">
           <SellButton></SellButton>
           <div className="sellMenuContent">
             <SellButtonPlus></SellButtonPlus>
-            <span>SELL</span>
+            <span
+              onClick={() => {
+                {
+                  user ? Navigate("/create") : Navigate("/login");
+                }
+              }}
+            >
+              SELL
+            </span>
           </div>
         </div>
       </div>

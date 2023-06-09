@@ -5,11 +5,13 @@ import dbconnect from "./config/dbconfig.js";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import cors from 'cors'
+import cookieParser from "cookie-parser";
 const app=express()
 dbconnect()
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
 dotenv.config();
 app.use(
     cors({
