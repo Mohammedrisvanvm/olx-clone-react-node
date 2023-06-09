@@ -1,6 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import axios from "axios";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home";
 import LoginPage from "./Pages/Login";
@@ -25,13 +30,27 @@ function App() {
     <div>
       <ToastContainer />
       <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
+        
+        {user.login === false && (
+          <Routes>
+            <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signUp" element={<Signup />} />
-          <Route path="/sell" element={<CreatePage />} />
+          <Route path="/sell" element={<Navigate to="/login" />} />
           <Route path="/Product" element={<ViewPost />} />
-        </Routes>
+            {/* <Route path="/search" element={<Search />} /> */}
+          </Routes>
+        )}
+        {user.login && (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/sell" element={<CreatePage />} />
+            <Route path="/login" element={<Navigate to="/" />} />
+            <Route path="/signup" element={<Navigate to="/" />} />
+            <Route path="/product" element={<ViewPost />} />
+            {/* <Route path="/search" element={<Search />} /> */}
+          </Routes>
+        )}
       </Router>
     </div>
   );

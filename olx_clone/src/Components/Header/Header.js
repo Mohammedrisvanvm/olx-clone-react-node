@@ -93,7 +93,7 @@ function Header() {
             <span
               onClick={() => {
                 {
-                  user ? Navigate("/create") : Navigate("/login");
+                  user ? Navigate("/sell") : Navigate("/login");
                 }
               }}
             >

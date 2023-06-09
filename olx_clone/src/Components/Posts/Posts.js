@@ -4,6 +4,7 @@ import Heart from '../../assets/Heart';
 import './Post.css';
 import { useNavigate } from 'react-router';
 
+
 function Posts() {
 const Navigate=useNavigate()
   return (
