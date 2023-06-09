@@ -1,14 +1,36 @@
 import React, { Fragment, useState } from "react";
 import "./Create.css";
 import Header from "../Header/Header";
+import { toast } from "react-toastify";
 
 const Create = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
-  const submitHandler=()=>{
+  const submitHandler=async (e)=>{
+    e.preventDefault()
+validationErr()
+
+let { data } = await axios.post('/add-product', { image, name, category, price, description, userId: user.details._id }, {
+  headers: {
+    'content-type': 'multipart/form-data'
+  }
+})
+  }
+  const validationErr=()=>{
+    if (
+      name.replaceAll(" ", "") === "" ||
+      category.replaceAll(" ", "") === "" ||
+      price.replaceAll(" ", "") === "" ||
+      !image
+
+    ) {
+      toast.error('fill data')
+      
+    }
     
+    return true;
   }
   return (
     <Fragment>
@@ -67,7 +89,7 @@ const Create = () => {
             />
 
             <br />
-            <button onClick={submitHandler} className="uploadBtn">upload and Submit</button>
+            <button onClick={submitHandler}  className="uploadBtn">upload and Submit</button>
           </form>
         </div>
       </card>

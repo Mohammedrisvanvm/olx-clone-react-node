@@ -1,6 +1,6 @@
 import  express  from "express";
 import userIndex from "./Routes/userRoute.js"
-import adminIndex from "./Routes/adminRoute.js"
+import productIndex from "./Routes/productRoute.js"
 import dbconnect from "./config/dbconfig.js";
 import morgan from "morgan";
 import dotenv from "dotenv";
@@ -23,7 +23,7 @@ app.use(
   );
 app.use(morgan("dev"))
 app.use('/',userIndex)
-app.use('/admin',adminIndex)
+app.use('/product]',productIndex)
 app.listen(5000,()=>{
     console.log("server running");
 })
