@@ -4,6 +4,9 @@ import Header from "../Header/Header";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { authContext } from "../../store/Context";
+import { useNavigate } from "react-router";
+
+
 
 const Create = () => {
   const [name, setName] = useState("");
@@ -12,20 +15,30 @@ const Create = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const { user } = useContext(authContext);
+  const Navigate=useNavigate()
   const submitHandler = async (e) => {
     e.preventDefault();
+    
     const valid = validationErr();
     console.log(valid);
     if (valid) {
-      let { data } = await axios.post(
-        "/product/addProduct",
-        { image, name, category, price,description, userId: user.details._id },
-        {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        }
-      );
+      try {
+          axios.post(
+          "/product/addProduct",
+          { image, name, category, price,description, userId: user.details._id },
+          {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          }
+        ).then((response)=>{
+          toast.success(response.data.message)
+          Navigate('/')
+        })
+      } catch (error) {
+        toast.error(error)
+      }
+    
     }
   };
   const validationErr = () => {
