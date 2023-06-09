@@ -1,4 +1,8 @@
-export function adminHome(req,res){
-    res.send("admin")
-}
+import AsyncHandler from "express-async-handler";
+
+export const addProduct=AsyncHandler(()=>{
+
+    
+})
+
 

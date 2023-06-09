@@ -10,31 +10,35 @@ const Create = () => {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
-  const {user}=useContext(authContext)
-  const submitHandler=async (e)=>{
-    e.preventDefault()
-validationErr()
-
-let { data } = await axios.post('/product/addProduct', { image, name, category, price, userId: user.details._id }, {
-  headers: {
-    'content-type': 'multipart/form-data'
-  }
-})
-  }
-  const validationErr=()=>{
+  const { user } = useContext(authContext);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const valid = validationErr();
+    console.log(valid);
+    if (valid) {
+      let { data } = await axios.post(
+        "/product/addProduct",
+        { image, name, category, price, userId: user.details._id },
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        }
+      );
+    }
+  };
+  const validationErr = () => {
     if (
       name.replaceAll(" ", "") === "" ||
       category.replaceAll(" ", "") === "" ||
       price.replaceAll(" ", "") === "" ||
       !image
-
     ) {
-      toast.error('fill data')
-      
+      toast.error("fill data");
+    } else {
+      return true;
     }
-    
-    return true;
-  }
+  };
   return (
     <Fragment>
       <Header />
@@ -92,7 +96,9 @@ let { data } = await axios.post('/product/addProduct', { image, name, category, 
             />
 
             <br />
-            <button onClick={submitHandler}  className="uploadBtn">upload and Submit</button>
+            <button onClick={submitHandler} className="uploadBtn">
+              upload and Submit
+            </button>
           </form>
         </div>
       </card>
