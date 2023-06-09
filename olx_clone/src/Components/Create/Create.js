@@ -9,6 +9,7 @@ const Create = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const { user } = useContext(authContext);
   const submitHandler = async (e) => {
@@ -18,7 +19,7 @@ const Create = () => {
     if (valid) {
       let { data } = await axios.post(
         "/product/addProduct",
-        { image, name, category, price, userId: user.details._id },
+        { image, name, category, price,description, userId: user.details._id },
         {
           headers: {
             "content-type": "multipart/form-data",
@@ -65,6 +66,17 @@ const Create = () => {
               name="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
+            />
+            <br />
+            <label htmlFor="fname">description</label>
+            <br />
+            <input
+              className="input"
+              type="text"
+              id="fname"
+              name="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <br />
             <label htmlFor="fname">Price</label>
