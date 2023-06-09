@@ -15,3 +15,7 @@ export const products=AsyncHandler(async(req,res)=>{
     const products=await productModel.find()
     res.json({products})
 })
+export const productInfo=AsyncHandler(async(req,res)=>{
+    const products=await productModel.find()
+    res.json({products})
+})

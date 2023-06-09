@@ -37,7 +37,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signUp" element={<Signup />} />
           <Route path="/sell" element={<Navigate to="/login" />} />
-          <Route path="/Product" element={<ViewPost />} />
+          <Route path="/Product/:id" element={<ViewPost />} />
             {/* <Route path="/search" element={<Search />} /> */}
           </Routes>
         )}
@@ -47,7 +47,7 @@ function App() {
             <Route path="/sell" element={<CreatePage />} />
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="/signup" element={<Navigate to="/" />} />
-            <Route path="/product" element={<ViewPost />} />
+            <Route path="/product/:id" element={<ViewPost />} />
             {/* <Route path="/search" element={<Search />} /> */}
           </Routes>
         )}

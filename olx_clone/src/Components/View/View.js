@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './View.css';
-function View() {
+import axios from 'axios';
+function View({id}) {
+const [product,setProduct]=useState({})
+  useEffect(async()=>{
+const {data}=await axios.get('/product/productInfo',{id})
+console.log(data);
+  },[])
   return (
     <div className="viewParentDiv">
       <div className="imageShowDiv">

@@ -21,8 +21,7 @@ const Navigate=useNavigate()
           <div
             className="card"
             onClick={()=>{
-              console.log('hai');
-              Navigate('/Product')
+              Navigate('/Product/'+product._id)
             }}
           >
             <div className="favorite">
